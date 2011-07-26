@@ -13,6 +13,7 @@ source 'http://rubygems.org'
   group :test do
     gem 'rspec-rails', '2.6.1'
     gem 'webrat', '0.7.1'
+    gem 'factory_girl_rails', '1.0'
   end
 
 # las versiones aquí vienen del libro en linea cap. 3
