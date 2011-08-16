@@ -36,8 +36,8 @@ class User < ActiveRecord::Base
     return nil if user.nil? # regresa nulo si no lo encuentra
     return user if user.has_password?(submitted_password) # regresa el usuario que tenga ese password
   end
-
-  def authenticate_with_salt(id, cookie_salt)
+#yo veía que aquí hay un problema, no está la clase o self.authenticate_with_salt revisar
+  def self.authenticate_with_salt(id, cookie_salt)
     user = find_by_id(id)
     (user && user.salt == cookie_salt) ? user : nil
     #return user if the user exists and if the user salt matches the cookie salt, else return nil
