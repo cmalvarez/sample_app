@@ -149,8 +149,9 @@ describe UsersController do
       it "should have the right title" do
           put :update, :id => @user, :user => @attr
           response.should have_selector("title", :content => "Edit user")
-      end
-      
+      end    
+    end #describe "failure" do
+
     describe "success" do
     
       before(:each) do
@@ -171,9 +172,30 @@ describe UsersController do
         put :update, :id => @user, :user => @attr
         flash[:success].should =~ /updated/
       end
+    end #describe "success" do
 
+  end # describe "PUT 'update'" do
+
+  describe "authentication of edit/update pages" do
+
+    before(:each) do
+      @user = Factory(:user)
     end
 
-    end
-  end
-end
+    describe "for non-signed-in users" do
+
+      it "should deny access to 'edit'" do
+        get :edit, :id => @user
+        response.should redirect_to(signin_path)
+        flash[:notice].should =~ /sign in/i
+      end
+
+      it "should deny access to 'update'" do
+        put :update, :id => @user, :user => {}
+        response.should redirect_to(signin_path)
+      end
+    end #describe "for non-signed-in users" do
+  end #  describe "authentication of edit/update pages" do
+
+
+end #describe UsersController do
