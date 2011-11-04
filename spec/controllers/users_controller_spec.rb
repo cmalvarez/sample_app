@@ -195,7 +195,25 @@ describe UsersController do
         response.should redirect_to(signin_path)
       end
     end #describe "for non-signed-in users" do
-  end #  describe "authentication of edit/update pages" do
+
+    describe "for signed-in-users"do
+
+      before(:each) do
+        wrong_user = Factory(:user, :email => "user@example.net")
+        test_sign_in(wrong_user)
+      end
+
+      it "should require matching users for 'edit'"do
+        get :edit, :id =>@user 
+        response.should redirect_to(root_path)
+      end
+
+      it "should require matching users for 'update'"do
+        put :update, :id =>@user, :user => {}
+        response.should redirect_to(root_path)
+      end
+    end #describe "for signed-in-users"do
+  end #describe "authentication of edit/update pages" do
 
 
 end #describe UsersController do
