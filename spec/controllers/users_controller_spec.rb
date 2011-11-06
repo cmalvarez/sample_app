@@ -3,6 +3,48 @@ require 'spec_helper'
 describe UsersController do
   render_views
 
+  describe "GET 'index'" do
+
+    describe "for non-signed-in users" do
+      it "should deny access" do
+        get :index
+        response.should redirect_to(signin_path)
+#        flash[:notice].should =~ /sign in/i
+      end #it "should deny access" do
+
+    end #describe "for non-signed-in users" do
+
+    describe "for signed-in users" do
+
+      before(:each) do
+        @user = test_sign_in(Factory(:user))
+        second = Factory(:user, :name => "Bob", :email => "another@example.com")
+        third  = Factory(:user, :name => "Ben", :email => "another@example.net")
+
+#        @users = [@user, second, third]
+      end #before(:each) do
+
+      it "should be successful" do
+        get :index
+        response.should be_success
+      end #it "should be successful" do
+
+      it "should have the right title" do
+        get :index
+        response.should have_selector("title", :content => "All users")
+      end #it "should have the right title" do
+
+      it "should have an element for each user" do
+        get :index
+        User.all.each do |user|
+          response.should have_selector("li", :content => user.name)
+        end #each
+      end #it "should have an element for each user" do
+
+    end #describe "for signed-in users" do
+
+  end#  describe "GET 'index'" do
+
   describe "GET 'show'" do
     before(:each) do
       @user = Factory(:user)
