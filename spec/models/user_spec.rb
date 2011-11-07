@@ -1,15 +1,3 @@
-# == Schema Information
-#
-# Table name: users
-#
-#  id                 :integer         not null, primary key
-#  name               :string(255)
-#  email              :string(255)
-#  created_at         :datetime
-#  updated_at         :datetime
-#  encrypted_password :string(255)
-#
-
 require 'spec_helper'
 
 describe User do
@@ -44,7 +32,7 @@ describe User do
     long_name_user.should_not be_valid
   end
 
- it "should accept valid email addresses" do
+  it "should accept valid email addresses" do
     addresses = %w[user@foo.com THE_USER@foo.bar.org first.last@foo.jp]
     addresses.each do |address|
       valid_email_user = User.new(@attr.merge(:email => address))
@@ -88,7 +76,7 @@ describe User do
        @user.should respond_to(:password_confirmation)
     end
 
-  end
+  end #describe "passwords" do
 
   describe "password validations" do
 
@@ -114,7 +102,7 @@ describe User do
       User.new(hash).should_not be_valid
     end
 
-  end
+  end #describe "password validations" do
 
   describe "password encryption" do
 
@@ -148,7 +136,7 @@ describe User do
         @user.has_password?("invalid").should be_false
       end 
 
-    end
+    end #describe "has_password? method" do
 
     describe "authenticate method" do
 
@@ -168,10 +156,33 @@ describe User do
         User.authenticate(@attr[:email], @attr[:password]).should == @user
       end
 
+    end #describe "authenticate method" do
+
+  end #describe "password encryption" do
+
+  describe "admin attribute" do
+
+    before(:each) do
+      @user = User.create!(@attr)
     end
 
-  end
+    it "should respond to admin" do
+      @user.should respond_to(:admin)
+    end
 
-end
+    it "should not be an admin by default" do
+      @user.should_not be_admin
+    end
+
+    it "should be convertible to an admin" do
+      @user.toggle!(:admin)
+      @user.should be_admin
+    end
+  end #describe "admin attribute" do
+
+end #describe User do
+
+
+
 
 
