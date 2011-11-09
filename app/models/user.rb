@@ -35,6 +35,13 @@ class User < ActiveRecord::Base
     encrypted_password == encrypt(submitted_password)
   end
 
+  def feed
+#    Micropost.all
+#    self.microposts
+#    microposts
+    Micropost.where("user_id = ?", id)
+  end
+
   def User.authenticate(email, submitted_password)
     user = find_by_email(email) # primero se busca el usuario x email
     # user = User.find_by_email(email) sintáxis equivalente
