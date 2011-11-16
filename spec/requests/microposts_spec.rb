@@ -1,5 +1,4 @@
 require 'spec_helper'
-
 describe "Microposts" do
   before(:each) do
     user = Factory(:user)
@@ -8,11 +7,8 @@ describe "Microposts" do
     fill_in :password, :with => user.password
     click_button
   end
-
   describe "creation" do
-
     describe "failure" do
-
       it "should not make a new micropost" do
         lambda do
           visit root_path
@@ -23,9 +19,7 @@ describe "Microposts" do
         end.should_not change(Micropost, :count)
       end
     end #describe "failure" do
-
     describe "success" do
-
       it "should make a new micropost" do
         content = "Lorem ipsum dolor sit amet"
         lambda do
